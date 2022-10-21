@@ -32,6 +32,11 @@ message(STATUS "Vulkan include dirs: ${Vulkan_INCLUDE_DIRS}")
 # Library implementation in src
 add_subdirectory(src)
 
+target_include_directories(nanovk PUBLIC
+    "include"
+    ${Vulkan_INCLUDE_DIRS}
+)
+
 # Include external dependencies
 add_subdirectory(dependencies)
 
