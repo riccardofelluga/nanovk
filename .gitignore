@@ -2,10 +2,10 @@
 .DS_store
 
 # build folder
-build/*
+/build
 
 # bin folder
-bin/*
+/bin
 
 # vscode folder
 /.vscode
