@@ -34,6 +34,7 @@ add_subdirectory(src)
 
 target_include_directories(nanovk PUBLIC
     "include"
+    "dependencies"
     ${Vulkan_INCLUDE_DIRS}
 )
 
@@ -42,6 +43,7 @@ add_subdirectory(dependencies)
 
 # Build sample project
 if (NANOVK_BUILD_EXAMPLES)
+    message(STATUS "Including examples")
     add_subdirectory(samples)
 endif()
 

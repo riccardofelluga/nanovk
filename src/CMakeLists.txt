@@ -6,4 +6,4 @@ set(SOURCES
 
 add_library(nanovk STATIC ${SOURCES})
 
-target_link_libraries(nanovk PUBLIC glfw)
+target_link_libraries(nanovk PUBLIC glfw ${Vulkan_LIBRARIES})
