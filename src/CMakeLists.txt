@@ -1,7 +1,8 @@
 # nanovk library
 
 set(SOURCES
-    render.cpp
+    view.cpp
+    pipeline.cpp
 )
 
 add_library(nanovk STATIC ${SOURCES})
