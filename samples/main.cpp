@@ -2,7 +2,6 @@
 
 #include "nanovk/render.h"
 
-int main(int argv, char* argc){
-    std::cout << "Works!\n";
+int main(int argc, char** argv){
     return 0;
 }
