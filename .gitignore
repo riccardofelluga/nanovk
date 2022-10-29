@@ -9,3 +9,6 @@
 
 # vscode folder
 /.vscode
+
+# visual studio folder
+/.vs
