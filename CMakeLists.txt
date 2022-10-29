@@ -3,6 +3,8 @@ project(nanovk)
 
 set(CMAKE_CXX_STANDARD 20)
 
+set(NANOVK_BUILD_EXAMPLES OFF CACHE BOOL "Include examples?")
+
 # Set build type if not set.
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
