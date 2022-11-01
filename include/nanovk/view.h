@@ -19,7 +19,7 @@ class View {
   vk::SurfaceKHR vk_surface_;
 
  public:
-  View(std::string window_name, int width, int height);
+  View(const std::string& window_name, int width, int height);
   ~View();
 
   void render();

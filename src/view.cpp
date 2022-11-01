@@ -1,6 +1,6 @@
 #include "nanovk/view.h"
 
-nanovk::View::View(std::string window_name, int width, int height) {
+nanovk::View::View(const std::string& window_name, int width, int height) {
   glfwInit();
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
   glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
@@ -15,7 +15,7 @@ nanovk::View::View(std::string window_name, int width, int height) {
   
   uint32_t glfw_extensions_count = 0;
   const char** glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
-  std::vector<char const*> validation_layers = {"VK_LAYER_KHRONOS_validation"};
+  std::vector validation_layers = {"VK_LAYER_KHRONOS_validation"};
 
   vk::InstanceCreateInfo app_instance_info({}, &app_info);
   app_instance_info.setEnabledLayerCount(validation_layers.size());
@@ -25,8 +25,7 @@ nanovk::View::View(std::string window_name, int width, int height) {
   vk_instance_ = vk::createInstance(app_instance_info);
 
   VkSurfaceKHR raw_surface;
-  VkResult error = glfwCreateWindowSurface(vk_instance_, window_, nullptr, &raw_surface);
-  if (error) {
+  if (glfwCreateWindowSurface(vk_instance_, window_, nullptr, &raw_surface)) {
     std::cerr << "Unable to create vk surface.\n";
     return;
   }
