@@ -1,2 +1,4 @@
 # nanovk
-Small vk wrapper 
+
+Small Vulkan wrapper for rapid prototyping.
+
