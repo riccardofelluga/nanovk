@@ -12,3 +12,6 @@
 
 # visual studio folder
 /.vs
+
+# visual studio cmake settings
+CMakeSettings.json
