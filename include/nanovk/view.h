@@ -27,6 +27,8 @@ namespace nanovk {
 		~View();
 
 		void render() const;
+	};
+
 }  // namespace nanovk
 
 #endif  // NANOVK_VIEW_

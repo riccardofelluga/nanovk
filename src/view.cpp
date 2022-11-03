@@ -45,4 +45,3 @@ void nanovk::View::render() const {
 	}
 }
   }
-}
