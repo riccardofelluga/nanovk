@@ -44,4 +44,3 @@ void nanovk::View::render() const {
 		glfwPollEvents();
 	}
 }
-  }
