@@ -12,19 +12,21 @@
 
 namespace nanovk {
 
-class View {
- private:
-  GLFWwindow* window_;
-  vk::Instance vk_instance_;
-  vk::SurfaceKHR vk_surface_;
+	class View {
 
- public:
-  View(const std::string& window_name, int width, int height);
-  ~View();
+		GLFWwindow* window_;
+		vk::Instance vk_instance_;
+		vk::SurfaceKHR vk_surface_;
 
-  void render();
-};
+	public:
+		View(const std::string& window_name, int width, int height);
+		View(const View&) = delete;
+		View(View&&) = delete;
+		View& operator=(const View&) = delete;
+		View& operator=(View&&) = delete;
+		~View();
 
+		void render() const;
 }  // namespace nanovk
 
 #endif  // NANOVK_VIEW_
