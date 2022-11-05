@@ -12,11 +12,15 @@
 
 namespace nanovk {
 
+	class Device {
+	};
+
 	class View {
 
 		GLFWwindow* window_;
 		vk::Instance vk_instance_;
 		vk::SurfaceKHR vk_surface_;
+		Device vk_device_;
 
 	public:
 		View(const std::string& window_name, int width, int height);
@@ -26,7 +30,8 @@ namespace nanovk {
 		View& operator=(View&&) = delete;
 		~View();
 
-		void render() const;
+		void render(const Device& device) const;
+		Device getDevice();
 	};
 
 }  // namespace nanovk

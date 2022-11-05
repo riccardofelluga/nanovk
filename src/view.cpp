@@ -39,8 +39,28 @@ nanovk::View::~View() {
 	glfwTerminate();
 }
 
-void nanovk::View::render() const {
+void nanovk::View::render(const nanovk::Device& device) const {
 	while (!glfwWindowShouldClose(window_)) {
 		glfwPollEvents();
 	}
+}
+
+nanovk::Device nanovk::View::getDevice() {
+	std::optional<vk::PhysicalDevice> available_device;
+	for (const auto& device : vk_instance_.enumeratePhysicalDevices()) {
+		const auto& properties = device.getProperties();
+		std::cout << "Found " << to_string(properties.deviceType) << " with name " << properties.deviceName << "\n";
+		if (properties.deviceType == vk::PhysicalDeviceType::eDiscreteGpu || properties.deviceType == vk::PhysicalDeviceType::eIntegratedGpu) {
+			available_device = device;
+		}
+	}
+
+	if (!available_device) {
+		throw std::runtime_error("No devices available");
+	}
+
+	int width, height;
+	glfwGetFramebufferSize(window_, &width, &height);
+
+	return { available_device.value(), vk_surface_, width, height };
 }
