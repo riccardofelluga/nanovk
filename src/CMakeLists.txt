@@ -2,7 +2,8 @@
 
 set(SOURCES
     view.cpp
-    pipeline.cpp
+   # pipeline.cpp
+    device.cpp
 )
 
 add_library(nanovk STATIC ${SOURCES})

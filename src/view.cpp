@@ -1,4 +1,5 @@
 #include "nanovk/view.h"
+#include <optional>
 
 nanovk::View::View(const std::string& window_name, int width, int height) {
 	glfwInit();
@@ -22,34 +23,12 @@ nanovk::View::View(const std::string& window_name, int width, int height) {
 	app_instance_info.setPEnabledLayerNames(validation_layers);
 	app_instance_info.setEnabledExtensionCount(glfw_extensions_count);
 	app_instance_info.setPpEnabledExtensionNames(glfw_extensions);
-	vk_instance_ = vk::createInstance(app_instance_info);
+	instance_ = vk::createInstanceUnique(app_instance_info);
 
-	VkSurfaceKHR raw_surface;
-	if (glfwCreateWindowSurface(vk_instance_, window_, nullptr, &raw_surface)) {
-		throw std::runtime_error("Unable to create surface");
-	}
-	vk_surface_ = raw_surface;
-}
-
-nanovk::View::~View() {
-	vk_instance_.destroySurfaceKHR(vk_surface_);
-	vk_instance_.destroy();
-
-	glfwDestroyWindow(window_);
-	glfwTerminate();
-}
-
-void nanovk::View::render(const nanovk::Device& device) const {
-	while (!glfwWindowShouldClose(window_)) {
-		glfwPollEvents();
-	}
-}
-
-nanovk::Device nanovk::View::getDevice() {
 	std::optional<vk::PhysicalDevice> available_device;
-	for (const auto& device : vk_instance_.enumeratePhysicalDevices()) {
+	for (const auto& device : instance_->enumeratePhysicalDevices()) {
 		const auto& properties = device.getProperties();
-		std::cout << "Found " << to_string(properties.deviceType) << " with name " << properties.deviceName << "\n";
+		std::cout << "Found " << vk::to_string(properties.deviceType) << " with name " << properties.deviceName << "\n";
 		if (properties.deviceType == vk::PhysicalDeviceType::eDiscreteGpu || properties.deviceType == vk::PhysicalDeviceType::eIntegratedGpu) {
 			available_device = device;
 		}
@@ -58,9 +37,35 @@ nanovk::Device nanovk::View::getDevice() {
 	if (!available_device) {
 		throw std::runtime_error("No devices available");
 	}
+	
+	properties_.base_device = available_device.value();
 
-	int width, height;
-	glfwGetFramebufferSize(window_, &width, &height);
+	VkSurfaceKHR raw_surface;
+	if (glfwCreateWindowSurface(instance_.get(), window_, nullptr, &raw_surface)) {
+		throw std::runtime_error("Unable to create surface");
+	}
 
-	return { available_device.value(), vk_surface_, width, height };
+	vk::ObjectDestroy< vk::Instance, VULKAN_HPP_DEFAULT_DISPATCHER_TYPE > destroyer{ instance_.get() };
+	properties_.surface = vk::UniqueSurfaceKHR{ vk::SurfaceKHR( raw_surface ), destroyer };    
+
+	int fb_width, fb_height;
+	glfwGetFramebufferSize(window_, &fb_width, &fb_height);
+	properties_.framebuffer_width = fb_width;
+	properties_.framebuffer_height = fb_height;
 }
+
+const nanovk::ViewProperties& nanovk::View::getProperties() const{
+	return properties_;
+}
+
+
+nanovk::View::~View() {
+	glfwDestroyWindow(window_);
+	glfwTerminate();
+}
+
+/*void nanovk::View::loop(const Device& device, const Pipeline& pipeline) const {
+	while (!glfwWindowShouldClose(window_)) {
+		glfwPollEvents();
+	}
+}*/
