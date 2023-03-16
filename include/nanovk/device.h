@@ -1,53 +1,30 @@
 #ifndef NANOVK_DEVICE_
 #define NANOVK_DEVICE_
 
-#include <vulkan/vulkan.hpp>
 #include <optional>
 #include "nanovk/view.h"
+#include <vulkan/vulkan_raii.hpp>
+
+#include "stream.h"
 
 namespace nanovk {
 
-	struct QueueProperties {
-		vk::Queue queue_instance;
-		vk::QueueFlags supported_type;
-		unsigned int index;
-		bool surface_support;
-	};
+enum class DeviceType {
+  GPU = VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU,
+  IntegratedGraphics = VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
+};
 
-	struct Swapchain {
-		vk::UniqueSwapchainKHR instance;
-		std::vector<vk::Image> images;
-		vk::SurfaceFormatKHR format;
-		vk::Extent2D extent;
-	};
+class Device {
+ public:
+  Device();
+  Device(vk::raii::PhysicalDevice&& vk_physical_device);
 
-	struct SurfaceProperties
-	{
-		vk::SurfaceKHR surface;
-		vk::SurfaceCapabilitiesKHR capabilities;
-		std::vector<vk::SurfaceFormatKHR> formats;
-		std::vector<vk::PresentModeKHR> present_modes;
-	};
+  const Stream& CreateStream(StreamType type);
 
-	class Device {
+ private:
+  vk::raii::PhysicalDevice vk_phy_device_;
+  std::vector<std::unique_ptr<Stream>> streams_;
+};
+}  // namespace nanovk
 
-		QueueProperties graphics_queue_;
-		SurfaceProperties surface_properties_;
-		vk::UniqueDevice device_;
-		Swapchain swapchain_;
-
-		void createSwapchain(const vk::Extent2D& extent);
-
-	public:
-		Device(const ViewProperties& view_properties);
-		void setFramebuffer(unsigned int width, unsigned int height);
-		void getNextImage(vk::Semaphore signal_available);
-		void presentNextImage(vk::Semaphore render_done_signal);
-
-		vk::UniqueSemaphore createSemaphore() const;
-		vk::UniqueFence createSignaledFence() const;
-	};
-
-} // namespace nanovk
-
-#endif // NANOVK_DEVICE_
+#endif  // NANOVK_DEVICE_

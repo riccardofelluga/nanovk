@@ -1,5 +1,16 @@
 #include "nanovk/device.h"
 
+namespace nanovk
+{
+  Device::Device(vk::raii::PhysicalDevice&& phy_device) : vk_phy_device_(phy_device){
+    
+  }
+
+  const Stream& Device::CreateStream(StreamType type)
+  { return {};
+  }
+
+} // namespace nanovk
 nanovk::Device::Device(const nanovk::ViewProperties& view) {
 
 	std::optional<QueueProperties> graphics_q;
