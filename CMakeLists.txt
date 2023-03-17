@@ -35,12 +35,6 @@ message(STATUS "Found glscl: ${Vulkan_GLSLC_EXECUTABLE}")
 # Library implementation in src
 add_subdirectory(src)
 
-target_include_directories(nanovk PUBLIC
-    "include"
-    "dependencies"
-    ${Vulkan_INCLUDE_DIRS}
-)
-
 # Include external dependencies
 add_subdirectory(dependencies)
 
