@@ -33,7 +33,14 @@ Runtime::Runtime(const std::string& name, bool enable_validation)
     std::cout << glfw_ext_ptr[i] << "\n";
   }
 
-  vk::InstanceCreateInfo instance_info({}, &runtime_info);
+  vk::InstanceCreateFlags instance_flags;
+  
+  #ifdef __APPLE__
+    extensions.emplace_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+    instance_flags |= vk::InstanceCreateFlagBits::eEnumeratePortabilityKHR;
+  #endif
+
+  vk::InstanceCreateInfo instance_info(instance_flags ,&runtime_info);
   instance_info.setPEnabledLayerNames(layers);
   instance_info.setPEnabledExtensionNames(extensions);
   vk_instance_ = vk_context_.createInstance(instance_info);
