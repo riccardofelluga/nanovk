@@ -2,14 +2,7 @@
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 message(STATUS "Output directory for sample: ${EXECUTABLE_OUTPUT_PATH}")
 
-find_program(
-	GLSLC
-	glslc
-	DOC "Vulkan Shader Compiler (glslc)"
-	REQUIRED
-)
-
-set(SHADER_PATH ${WORKING_DIRECTORY}/shaders)
+set(SHADER_PATH ${CMAKE_CURRENT_SOURCE_DIR}/shaders)
 file(GLOB SHADERS_LIST "${SHADER_PATH}/*.vert" "${SHADER_PATH}/*.frag")
 
 foreach(SHADER ${SHADERS_LIST})
@@ -17,7 +10,7 @@ foreach(SHADER ${SHADERS_LIST})
     add_dependencies( ${PROJECT_NAME} "compile_${FILENAME}")
 	add_custom_target(
 		"compile_${FILENAME}"
-		COMMAND ${GLSLC} ${SHADER} -o ${FILENAME}.spv
+		COMMAND ${Vulkan_GLSLC_EXECUTABLE} ${SHADER} -o ${FILENAME}.spv
 		WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
 		COMMENT "Compiling ${FILENAME}..."
 	)

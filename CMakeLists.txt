@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.24)
 project(nanovk)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -30,6 +30,7 @@ endif()
 
 find_package(Vulkan REQUIRED)
 message(STATUS "Vulkan include dirs: ${Vulkan_INCLUDE_DIRS}")
+message(STATUS "Found glscl: ${Vulkan_GLSLC_EXECUTABLE}")
 
 # Library implementation in src
 add_subdirectory(src)
