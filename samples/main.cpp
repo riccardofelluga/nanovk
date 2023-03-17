@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "nanovk/view.h"
 #include "nanovk/device.h"
 #include "nanovk/runtime.h"
 
