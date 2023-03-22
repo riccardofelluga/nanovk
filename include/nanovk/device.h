@@ -1,11 +1,8 @@
-#ifndef NANOVK_DEVICE_
-#define NANOVK_DEVICE_
+#ifndef NANOVK_DEVICE_H_
+#define NANOVK_DEVICE_H_
 
 #include <optional>
-#include "nanovk/view.h"
 #include <vulkan/vulkan_raii.hpp>
-
-#include "stream.h"
 
 namespace nanovk {
 
@@ -17,7 +14,7 @@ enum class DeviceType {
 class Device {
  public:
   std::unique_ptr<Device> Create();
-  
+
   void SubmitQueueAndWait();
 
  private:
@@ -27,4 +24,4 @@ class Device {
 };
 }  // namespace nanovk
 
-#endif  // NANOVK_DEVICE_
+#endif  // NANOVK_DEVICE_H_
