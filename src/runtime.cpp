@@ -8,7 +8,7 @@ std::unique_ptr<Runtime> Runtime::CreateWithExtensions(const std::string& name, 
 
   vk::ApplicationInfo runtime_info;
   runtime_info.setPApplicationName(name.c_str());
-  runtime_info.setPEngineName("nanoVk");
+  runtime_info.setPEngineName("nanovk");
   runtime_info.setEngineVersion(VK_MAKE_VERSION(0, 1, 0));
   runtime_info.setApiVersion(VK_API_VERSION_1_3);
 
@@ -27,7 +27,6 @@ std::unique_ptr<Runtime> Runtime::CreateWithExtensions(const std::string& name, 
   vk::InstanceCreateInfo instance_info(instance_flags, &runtime_info);
   instance_info.setPEnabledLayerNames(layers);
   instance_info.setPEnabledExtensionNames(instance_extensions);
-  auto instance = context.createInstance(instance_info);
 
   return std::make_unique<Runtime>(context.createInstance(instance_info));
 }
