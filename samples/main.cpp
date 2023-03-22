@@ -1,19 +1,24 @@
 #include <iostream>
+#include <memory>
 
 #include "nanovk/device.h"
+#include "nanovk/window.h"
 #include "nanovk/runtime.h"
 
 int main(int argc, char** argv) {
-  auto app = nanovk::Runtime("nanovk test");
 
-  auto device = app.GetDevice(nanovk::DeviceType::GPU); 
+  auto window = nanovk::WindowSurface::Create("NanoVK test", 1200, 800);
 
-  //const auto& stream = device.CreateStream(nanovk::StreamType::Graphics);
+  // auto app = nanovk::Runtime::CreateWithExtensions("nanovk test", window->GetWindowExtensions());
+  
+  // auto device = app->GetDevice(nanovk::DeviceType::GPU); 
 
-  //app.Subscribe(stream);
+  auto draw = [&](){
+    std::cout << "Window is open!\n";
+    return;
+  };
 
-  app.Loop();
-
+  window->OpenWindowAndLoop(draw);
   return 0;
 }
 

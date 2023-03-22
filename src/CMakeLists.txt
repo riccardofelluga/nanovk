@@ -5,6 +5,7 @@ set(SOURCES
     stream.cpp
     runtime.cpp
     device.cpp
+    window.cpp
 )
 
 add_library(nanovk STATIC ${SOURCES})

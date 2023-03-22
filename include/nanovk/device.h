@@ -16,14 +16,14 @@ enum class DeviceType {
 
 class Device {
  public:
-  Device();
-  Device(vk::raii::PhysicalDevice&& vk_physical_device);
-
-  const Stream& CreateStream(StreamType type);
+  std::unique_ptr<Device> Create();
+  
+  void SubmitQueueAndWait();
 
  private:
+  Device(vk::raii::PhysicalDevice&& phy_device);
+
   vk::raii::PhysicalDevice vk_phy_device_;
-  std::vector<std::unique_ptr<Stream>> streams_;
 };
 }  // namespace nanovk
 

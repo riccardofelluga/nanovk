@@ -1,33 +1,30 @@
-#ifndef NANOVK_RUNTIME_
-#define NANOVK_RUNTIME_
+#ifndef NANOVK_RUNTIME_H_
+#define NANOVK_RUNTIME_H_
 
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
-
 #include <vulkan/vulkan_raii.hpp>
-#include <GLFW/glfw3.h>
 
 #include "device.h"
 
 namespace nanovk {
 class Runtime {
  public:
-  Runtime(const std::string& name, bool enable_validation = true);
+  static std::unique_ptr<Runtime> CreateWithExtensions(
+      const std::string& name, std::vector<const char*> instance_extensions,
+      bool with_validation = true);
+
+  // std::optional<Device> GetDevice(DeviceType type);
+
+  explicit Runtime(vk::raii::Instance&& instance)
+      : instance_(std::move(instance)){};
   ~Runtime();
 
-  std::optional<Device> GetDevice(DeviceType type);
-
-  void Subscribe(Device device);
-
-  void Loop();
-
-private:
-  GLFWwindow* window_;
- vk::raii::Context vk_context_;
- vk::raii::Instance vk_instance_;
- vk::raii::SurfaceKHR vk_surface_;
+ private:
+  vk::raii::Instance instance_;
 };
 
 }  // namespace nanovk
-#endif  // NANOVK_RUNTIME_
+#endif  // NANOVK_RUNTIME_H_
