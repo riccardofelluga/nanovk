@@ -2,8 +2,9 @@
 
 namespace nanovk {
 
-std::unique_ptr<Runtime> Runtime::CreateWithExtensions(const std::string& name, std::vector<const char*> instance_extensions,
-                                         bool with_validation) {
+std::unique_ptr<Runtime> Runtime::CreateWithExtensions(
+    const std::string& name, std::vector<const char*> instance_extensions,
+    bool with_validation) {
   vk::raii::Context context;
 
   vk::ApplicationInfo runtime_info;
@@ -31,6 +32,7 @@ std::unique_ptr<Runtime> Runtime::CreateWithExtensions(const std::string& name, 
   return std::make_unique<Runtime>(context.createInstance(instance_info));
 }
 
+const vk::Instance& Runtime::GetInstance() const { return *instance_; }
 // std::optional<Device> Runtime::GetDevice(DeviceType type) {
 //   vk::raii::PhysicalDevices physical_devices(instance_);
 //   for (auto& device : physical_devices) {
