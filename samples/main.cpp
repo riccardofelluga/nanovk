@@ -7,11 +7,11 @@
 
 int main(int argc, char** argv) {
 
-  auto window = nanovk::WindowSurface::Create("NanoVK test", 1200, 800);
-
-  // auto app = nanovk::Runtime::CreateWithExtensions("nanovk test", window->GetWindowExtensions());
+  auto window = nanovk::Window::Create("NanoVK test", 1200, 800);
   
-  // auto device = app->GetDevice(nanovk::DeviceType::GPU); 
+  auto app = nanovk::Runtime::CreateWithExtensions("nanovk test", window->GetWindowExtensions());
+
+  auto surface = window->GetSurface(app->GetInstance());
 
   auto draw = [&](){
     std::cout << "Window is open!\n";
