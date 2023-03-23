@@ -8,6 +8,7 @@
 #include <vulkan/vulkan_raii.hpp>
 
 #include "device.h"
+#include "window.h"
 
 namespace nanovk {
 class Runtime {
@@ -16,7 +17,9 @@ class Runtime {
       const std::string& name, std::vector<const char*> instance_extensions,
       bool with_validation = true);
 
-  // std::optional<Device> GetDevice(DeviceType type);
+  std::unique_ptr<Device> CreateDeviceWithSurface(
+      const vk::PhysicalDeviceType& type, const WindowSurfaceInfo& surface) const;
+  const vk::Instance& GetInstance() const;
 
   explicit Runtime(vk::raii::Instance&& instance)
       : instance_(std::move(instance)){};
